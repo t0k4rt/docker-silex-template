@@ -1,3 +1,0 @@
-2015/05/04 15:54:53 [error] 7#0: *1 rewrite or internal redirection cycle while internally redirecting to "/", client: 10.0.2.2, server: symfony.loc, request: "GET / HTTP/1.1", host: "symfony.loc:8080"
-2015/05/04 15:54:56 [error] 7#0: *2 rewrite or internal redirection cycle while internally redirecting to "/", client: 10.0.2.2, server: symfony.loc, request: "GET / HTTP/1.1", host: "symfony.loc:8080"
-2015/05/04 15:54:59 [error] 7#0: *3 rewrite or internal redirection cycle while internally redirecting to "/", client: 10.0.2.2, server: symfony.loc, request: "GET / HTTP/1.1", host: "symfony.loc:8080"
