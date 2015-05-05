@@ -1,25 +1,25 @@
 app:
     build: containers/symfony/
     volumes:
-        - symfony:/var/www/symfony
+        - /var/www/symfony
     tty: true
 
-db:
-    image: mysql
-    ports:
-        - 3306:3306
-    environment:
-        MYSQL_ROOT_PASSWORD: root
-        MYSQL_DATABASE: symfony
-        MYSQL_USER: root
-        MYSQL_PASSWORD: root
+#db:
+#    image: mysql
+#    ports:
+#        - 3306:3306
+#    environment:
+#        MYSQL_ROOT_PASSWORD: root
+#        MYSQL_DATABASE: symfony
+#        MYSQL_USER: root
+#        MYSQL_PASSWORD: root
 
 phpfpm:
     build: containers/phpfpm/
     expose:
         - 9000:9000
-    links:
-        - db
+#    links:
+#        - db
     volumes_from:
         - app
 
@@ -31,5 +31,3 @@ nginx:
         - phpfpm
     volumes_from:
         - app
-    volumes:
-        - logs/nginx:/var/log/nginx

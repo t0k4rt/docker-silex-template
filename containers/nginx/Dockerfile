@@ -1,16 +1,11 @@
-FROM debian:jessie
+FROM nginx
 
-RUN apt-get update && apt-get install -y nginx
-
-ADD symfony.conf /etc/nginx/sites-available/
-
-RUN ln -s /etc/nginx/sites-available/symfony.conf /etc/nginx/sites-enabled/symfony
-
-# RUN echo "upstream php-upstream { server phpfpm:9000; }" > /etc/nginx/conf.d/upstream.conf
-
+ADD symfony.conf /etc/nginx/conf.d/
+#RUN ls -l /etc/nginx/
+RUN ls -l /dev
+RUN ls -l /var/log/nginx
+#RUN cat /etc/nginx/conf.d
+#RUN cat /etc/nginx/nginx.conf
+#RUN ln -s /etc/nginx/sites-available/symfony.conf /etc/nginx/sites-enabled/symfony
 RUN usermod -u 1000 www-data
-
-CMD ["nginx", "-g", "daemon off;"]
-
-EXPOSE 80
-EXPOSE 443
+RUN groupmod -g 1000 www-data
