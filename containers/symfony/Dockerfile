@@ -1,16 +1,22 @@
 FROM debian:jessie
 
-#RUN groupadd -r www-data \
-#  && useradd -r -g www-data www-data
-RUN apt-get update && apt-get install -y curl php5-cli
+# Symfony env var
+ENV TAG 2.6 
+ENV REPO https://github.com/symfony/symfony-standard.git
 
-RUN curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony
-RUN chmod a+x /usr/local/bin/symfony 
+# install dependancies
+RUN apt-get update && apt-get upgrade -y && apt-get install -y git
 
-RUN mkdir -p /var/www 
-RUN cd /var/www/ && symfony new symfony
-RUN chown -R www-data:www-data /var/www
+# create and mount volume
+RUN mkdir -p /var/www /var/ww/symfony
+VOLUME /var/www/symfony
 
+# clone repo with the correct tag
+CMD printenv
+RUN git clone --branch $TAG $REPO /var/www/symfony
+RUN chown -R www-data:www-data /var/www/symfony
+
+# sync user and group ids with other containers
 RUN usermod -u 1000 www-data
 RUN groupmod -g 1000 www-data
 

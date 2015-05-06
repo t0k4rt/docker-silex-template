@@ -4,22 +4,28 @@ app:
         - /var/www/symfony
     tty: true
 
-#db:
-#    image: mysql
-#    ports:
-#        - 3306:3306
-#    environment:
-#        MYSQL_ROOT_PASSWORD: root
-#        MYSQL_DATABASE: symfony
-#        MYSQL_USER: root
-#        MYSQL_PASSWORD: root
-
+pgsqldata:
+    build: containers/pgsql-data/
+    volumes:
+        - /var/lib/postgresql/data
+    tty: true
+    
+pgsql:
+    image: postgres:9.4.1
+    volumes_from:
+        - pgsqldata
+    ports:
+        - 5432:5432
+    environment:
+        POSTGRES_PASSWORD: symfony
+        POSTGRES_USER : symfony
+        
 phpfpm:
     build: containers/phpfpm/
     expose:
         - 9000:9000
-#    links:
-#        - db
+    links:
+        - pgsql
     volumes_from:
         - app
 
