@@ -1,6 +1,6 @@
 FROM nginx
 
-ADD symfony.conf /etc/nginx/conf.d/
+COPY symfony.conf /etc/nginx/conf.d/
 
 # helpful for debug
 # CMD ["ls", "-l", "/dev"]

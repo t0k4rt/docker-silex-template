@@ -1,5 +1,5 @@
-app:
-    build: containers/symfony/
+appdata:
+    build: containers/app-data/
     volumes:
         - /var/www/symfony
     tty: true
@@ -9,9 +9,9 @@ pgsqldata:
     volumes:
         - /var/lib/postgresql/data
     tty: true
-    
+
 pgsql:
-    image: postgres:9.4.1
+    image: postgres:9.4
     volumes_from:
         - pgsqldata
     ports:
@@ -27,7 +27,8 @@ phpfpm:
     links:
         - pgsql
     volumes_from:
-        - app
+        - appdata
+    tty: true
 
 nginx:
     build: containers/nginx/
@@ -36,4 +37,4 @@ nginx:
     links:
         - phpfpm
     volumes_from:
-        - app
+        - appdata
