@@ -32,6 +32,10 @@ if [ "$1" == "setup" ] && [ "$2" == "sf2" ]; then
     chown -R www-data:www-data /var/www/symfony
     exit 0
 elif [ "$1" == "update" ] && [ "$2" == "sf2" ] && [ -d "/var/www/symfony/web" ]; then
+    if  [ ! -d "/var/www/symfony/web" ]; then
+        printf "\x1b[93;41m symfony project does not exists. Did you setup sf2 bedore ? \x1b[0m \n";
+        exit 0
+    fi
     cd /var/www/symfony
     git fetch origin $3
     git checkout $3
@@ -44,6 +48,7 @@ elif [ "$1" == "update" ] && [ "$2" == "sf2" ] && [ -d "/var/www/symfony/web" ];
 elif [[ $1 == *":"* ]] && php /var/www/symfony/app/console list|grep $1; then
 	echo "Found command(s)"; 
     PREFIX="php /var/www/symfony/app/console " 
+    echo "Running command: $PREFIX$@"; 
     exec gosu www-data bash -c "$PREFIX$@"
     exit 0    
 fi
