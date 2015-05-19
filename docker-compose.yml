@@ -28,6 +28,11 @@ phpfpm:
         - pgsql
     volumes_from:
         - appdata
+    environment:
+        POSTGRES_PASSWORD: symfony
+        POSTGRES_USER : symfony
+        POSTGRES_PORT : 5432
+        POSTGRES_HOST : http://pgsql
     tty: true
 
 nginx:
