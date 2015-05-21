@@ -1,24 +1,27 @@
 appdata:
     build: containers/app-data/
     volumes:
-        - /var/www/symfony
-    tty: true
+        - /var/www/silex
 
 pgsqldata:
     build: containers/pgsql-data/
     volumes:
         - /var/lib/postgresql/data
-    tty: true
 
 pgsql:
     image: postgres:9.4
     volumes_from:
         - pgsqldata
-    ports:
+    expose:
         - 5432:5432
     environment:
-        POSTGRES_PASSWORD: symfony
-        POSTGRES_USER : symfony
+        POSTGRES_PASSWORD: silex
+        POSTGRES_USER : silex
+
+redis:
+    image: redis:3.0
+    expose:
+        - 6379:6379
         
 phpfpm:
     build: containers/phpfpm/
@@ -26,13 +29,14 @@ phpfpm:
         - 9000:9000
     links:
         - pgsql
+        - redis
     volumes_from:
         - appdata
     environment:
-        POSTGRES_PASSWORD: symfony
-        POSTGRES_USER : symfony
-        POSTGRES_PORT : 5432
-        POSTGRES_HOST : http://pgsql
+        POSTGRES_PASSWORD: silex
+        POSTGRES_USER: silex
+        POSTGRES_PORT: 5432
+        POSTGRES_HOST: http://pgsql
     tty: true
 
 nginx:
@@ -43,3 +47,5 @@ nginx:
         - phpfpm
     volumes_from:
         - appdata
+    environment:
+        VHOST: silex.loc

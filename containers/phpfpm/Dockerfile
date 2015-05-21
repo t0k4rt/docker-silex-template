@@ -1,19 +1,7 @@
 FROM debian:jessie
 
-LABEL name="Symfony2 PHP-fpm container"
+LABEL name="Silex PHP-fpm container"
 LABEL version="0.1"
-
-# PHP env var
-ENV DEBUG false
-# Symfony env var
-ENV SF2_VERSION v2.6.7 
-ENV SF2_REPO https://github.com/symfony/symfony-standard.git
-
-#RUN 'if [ $DEBUG = true ]; \
-#    then \
-#    echo "xdebug.remote_connect_back=On" >> /etc/php5/fpm/conf.d/20-xdebug.ini \
-#    && echo "xdebug.remote_enable=On" >> /etc/php5/fpm/conf.d/20-xdebug.ini ; \
-#    fi'
 
 # install mandatory php packages
 RUN apt-get update && apt-get upgrade -y && apt-get install -y git curl php5-fpm php5-cli php5-fpm php5-mcrypt php5-apcu php5-gd php5-imagick php5-curl php5-intl php5-pgsql php5-xdebug
@@ -29,9 +17,13 @@ RUN curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/dow
 
 
 # ini & conf files
-COPY symfony.ini /etc/php5/fpm/conf.d/
-COPY symfony.ini /etc/php5/cli/conf.d/
-COPY symfony.pool.conf /etc/php5/fpm/pool.d/
+COPY conf/silex.ini /etc/php5/fpm/conf.d/
+COPY conf/silex.ini /etc/php5/cli/conf.d/
+COPY conf/silex.pool.conf /etc/php5/fpm/pool.d/
+
+# base project
+COPY startup/composer.json /var/www/silex/
+COPY startup/index.php /var/www/silex/
 
 # sync user and group ids with other containers
 RUN usermod -u 1000 www-data
