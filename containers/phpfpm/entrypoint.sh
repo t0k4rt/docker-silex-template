@@ -10,6 +10,12 @@ if [ "$1" == "setup" ] && [ "$2" == "silex" ]; then
     composer install
     chown -R www-data:www-data /var/www/silex
     exit 0
+elif [ "$1" == "update" ] && [ "$2" == "silex" ]; then 
+    cd /var/www/silex
+    git pull origin master
+    composer update
+    chown -R www-data:www-data /var/www/silex
+    exit 0
 fi
     
 echo "Running command: $@"

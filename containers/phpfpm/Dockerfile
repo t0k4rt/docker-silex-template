@@ -21,10 +21,6 @@ COPY conf/silex.ini /etc/php5/fpm/conf.d/
 COPY conf/silex.ini /etc/php5/cli/conf.d/
 COPY conf/silex.pool.conf /etc/php5/fpm/pool.d/
 
-# base project
-COPY startup/composer.json /var/www/silex/
-COPY startup/index.php /var/www/silex/
-
 # sync user and group ids with other containers
 RUN usermod -u 1000 www-data
 RUN groupmod -g 1000 www-data
