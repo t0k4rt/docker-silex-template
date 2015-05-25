@@ -1,5 +1,8 @@
 FROM nginx
-ENV VHOST silex.loc
+
+if [ -z "$VHOST" ]; then 
+    VHOST="silex.loc"
+fi
 
 # copy site conf file
 COPY silex.conf /etc/nginx/conf.d/

@@ -33,11 +33,6 @@ phpfpm:
         - redis
     volumes_from:
         - appdata
-    environment:
-        POSTGRES_PASSWORD: silex
-        POSTGRES_USER: silex
-        POSTGRES_PORT: 5432
-        POSTGRES_HOST: http://pgsql
 
 nginx:
     build: containers/nginx/
@@ -48,4 +43,4 @@ nginx:
     volumes_from:
         - appdata
     environment:
-        VHOST: silex.loc
+        VHOST: silex.local
