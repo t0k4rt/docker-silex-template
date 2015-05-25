@@ -1,7 +1,7 @@
 appdata:
     build: containers/app-data/
     volumes:
-        - /var/www/silex
+        - /var/www/app
 
 pgsqldata:
     build: containers/pgsql-data/
@@ -24,6 +24,7 @@ redis:
         - 6379:6379
         
 phpfpm:
+    mem_limit: 1000000000
     build: containers/phpfpm/
     expose:
         - 9000:9000
@@ -32,12 +33,6 @@ phpfpm:
         - redis
     volumes_from:
         - appdata
-    environment:
-        POSTGRES_PASSWORD: silex
-        POSTGRES_USER: silex
-        POSTGRES_PORT: 5432
-        POSTGRES_HOST: http://pgsql
-    tty: true
 
 nginx:
     build: containers/nginx/
@@ -48,4 +43,4 @@ nginx:
     volumes_from:
         - appdata
     environment:
-        VHOST: silex.loc
+        VHOST: silex.local # works only when building a container

@@ -1,5 +1,6 @@
 FROM nginx
-ENV VHOST silex.loc
+
+ENV VHOST "silex.loc"
 
 # copy site conf file
 COPY silex.conf /etc/nginx/conf.d/
